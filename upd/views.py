@@ -19,7 +19,7 @@ from django.core.files.storage import FileSystemStorage
 def index(request):
     if request.method == "POST":
         file = request.FILES['docfile']
-        folder = 'upd/tech/input/'
+        folder = os.path.join(settings.THIS_FOLDER, 'tech/input/')
 
         now = datetime.datetime.now()
         fs = FileSystemStorage(location=folder)
@@ -28,7 +28,6 @@ def index(request):
         file_ext = filename_split[1]
         filename = file_name+'.'+file_ext
         fs.save(filename, file)
-        print(filename)
 
         create_upd(
             function=request.POST.get('function', ''),
@@ -51,7 +50,7 @@ def index(request):
             file_ext=str(file_ext),
 
         )
-        file_path = 'upd/tech/output/' + file_name + '.xml'
+        file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + file_name + '.xml'
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/force-download")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
@@ -65,7 +64,7 @@ def index(request):
 
 def download_template(request):
 
-    file_path = 'upd/tech/templates/xls/template.xlsx'
+    file_path = os.path.join(settings.THIS_FOLDER, 'tech/templates/xls/template.xlsx')
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
         response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
