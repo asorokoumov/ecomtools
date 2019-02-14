@@ -1,5 +1,7 @@
 from lxml import etree
 from xlrd import open_workbook
+from django.conf import settings
+import os
 
 
 
@@ -151,7 +153,7 @@ class Upd:
         self.tree.xpath(u'//Документ/СвСчФакт/ДопСвФХЖ1')[0].attrib[u'НаимОКВ'] = naim_okv
 
     def set_table(self, filename):
-        book = open_workbook('upd/tech/input/' + filename)
+        book = open_workbook(os.path.join(settings.THIS_FOLDER, 'tech/input/' + filename))
         sheet = book.sheet_by_index(0)
 
         # парсим таблицу с товарами
@@ -232,5 +234,6 @@ class Upd:
         subsubchild.text = '0.0'
 
     def output(self, file_name):
-        self.tree.write('upd/tech/output/' + file_name + '.xml', xml_declaration=True, encoding='windows-1251',
-                   pretty_print=True)
+
+        self.tree.write(os.path.join(settings.THIS_FOLDER, 'tech/output/' + file_name + '.xml'),
+                        xml_declaration=True, encoding='windows-1251', pretty_print=True)
