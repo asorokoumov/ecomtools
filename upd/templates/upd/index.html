@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+
+    <title>Генерация УПД</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+
+                <h1>Генерация УПД</h1>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">ООО</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">ИП</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <a href="/download_template">Шаблон</a>
+
+                        <form  action="/" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                <label for="function" class="col-3 col-form-label">Тип документа</label>
+                                <div class="col-3">
+                                    <input class="form-control" readonly type="text" value="ДОП" id="function" name="function">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="doc_num" class="col-3 col-form-label">Номер документа</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="11" id="doc_num" name="doc_num">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="ul" class="col-3 col-form-label">Юр.лицо</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="ul" value="ООО 'Вектор'" id="ul"name="ul">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="inn" class="col-3 col-form-label">ИНН</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="5678987656" id="inn" name="inn">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="kpp" class="col-3 col-form-label">КПП</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="kpp" name="kpp">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="index" class="col-3 col-form-label">Индекс</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="index" name="index">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="kodreg" class="col-3 col-form-label">Код региона</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="kodreg" name="kodreg">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="city" class="col-3 col-form-label">Город</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="city" name="city">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="street" class="col-3 col-form-label">Улица</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="street" name="street">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="house" class="col-3 col-form-label">Дом</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="house" name="house">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="korp" class="col-3 col-form-label">Корпус</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="korp" name="korp">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="phone" class="col-3 col-form-label">Контактный телефон</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="phone" name="phone">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="schet" class="col-3 col-form-label">Номер счета</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="schet" name="schet">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="bank" class="col-3 col-form-label">Наименование банка</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="bank" name="bank">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="bik" class="col-3 col-form-label">БИК</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="bik" name="bik">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="korschet" class="col-3 col-form-label">КорСчет</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" value="" id="korschet" name="korschet">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="gruzpol" class="col-3 col-form-label">Грузополучатель</label>
+                                <div class="col-3">
+                                    <input class="form-control" type="text" readonly value="Вайлдберриз Подольск" id="gruzpol" name="gruzpol">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="docfile" class="col-3 col-form-label">Таблица с товарами</label>
+                                <div class="col-3">
+                                     <input type="file" class="form-control-file" id="docfile" name="docfile">
+                                </div>
+                                <small id="emailHelp" class="form-text text-muted"><a href="/download_template">Скачать шаблон</a></small>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Сгенерировать</button>
+
+                        </form>
+
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">В разработке</div>
+                </div>
+
+            </div>
+            <div class="col-1"></div>
+        </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+</body>
+
+</html>
