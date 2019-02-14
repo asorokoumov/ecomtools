@@ -74,7 +74,7 @@ def download_template(request):
 def create_upd(**data):
     now = datetime.datetime.now()
 
-    upd = Upd('upd/tech/templates/xml/synerdocs/template_ooo.xml')
+    upd = Upd(os.path.join(settings.THIS_FOLDER, 'tech/templates/xml/synerdocs/template_ooo.xml'))
     upd.set_file('ON_SCHFDOPPR___20190204_6de6a7f1-9816-4d9b-8973-8dfa68ccfc8c')
     upd.set_document(data['function'], now.strftime("%d.%m.%y"), now.strftime("%H:%M:%S"), data['ul'])
     upd.set_sv_sch_fact(data['doc_num'], now.strftime("%d.%m.%y"))
