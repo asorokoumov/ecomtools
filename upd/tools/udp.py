@@ -2,6 +2,8 @@ from lxml import etree
 from xlrd import open_workbook
 from django.conf import settings
 import os
+import datetime
+
 
 
 
@@ -175,7 +177,7 @@ class Upd:
                     child.set(u'НомСтр', str(num_str))
                     child.set(u'НаимТов', str(row[1]))
                     child.set(u'КолТов', str(int(row[4])))
-                    child.set(u'ЦенаТов', str(row[5]))
+                    child.set(u'ЦенаТов', str(row[5]).replace(",", "."))
                     sum_excl_vat = "".join(str(row[6]).replace(",", ".").split())
                     child.set(u'СтТовБезНДС', sum_excl_vat)
                     total_sum_excl_vat = total_sum_excl_vat + float(sum_excl_vat)
@@ -233,7 +235,8 @@ class Upd:
         subsubchild = etree.SubElement(subchild, u'СумНал')
         subsubchild.text = '0.0'
 
-    def output(self, file_name):
-
-        self.tree.write(os.path.join(settings.THIS_FOLDER, 'tech/output/' + file_name + '.xml'),
+    def output(self):
+        now = datetime.datetime.now()
+        output_filename = 'result'+ now.strftime("%d%m%y%H%M%S")
+        self.tree.write(os.path.join(settings.THIS_FOLDER, 'tech/output/' + output_filename + '.xml'),
                         xml_declaration=True, encoding='windows-1251', pretty_print=True)

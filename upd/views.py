@@ -27,6 +27,7 @@ def index(request):
         file_name = filename_split[0]+'-'+now.strftime("%d%m%y%H%M%S")
         file_ext = filename_split[1]
         filename = file_name+'.'+file_ext
+
         fs.save(filename, file)
 
         create_upd(
@@ -50,7 +51,9 @@ def index(request):
             file_ext=str(file_ext),
 
         )
-        file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + file_name + '.xml'
+        output_filename = 'result'+ now.strftime("%d%m%y%H%M%S")
+
+        file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + output_filename + '.xml'
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/force-download")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
@@ -121,7 +124,7 @@ def create_upd(**data):
 
     upd.set_dop_sv_fhzh1('Российский рубль')
     upd.set_table(data['file_name']+'.'+data['file_ext'])
-    upd.output(data['file_name'])
+    upd.output()
 
 
 def create_upd_sveta():
