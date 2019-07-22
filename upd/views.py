@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from lxml import etree
 from xlrd import open_workbook
@@ -9,13 +11,16 @@ import datetime
 from django.core.files.storage import FileSystemStorage
 
 
-
 # Create your views here.
 
-# TODO <СвТД КодПроисх="643" НомерТД="-" />
-# TODO КрНаимСтрПр="Россия"
+
+def index(request):
+    return 1
+def download_template(request):
+    return 1
 
 
+'''
 def index(request):
     if request.method == "POST":
         file = request.FILES['docfile']
@@ -24,9 +29,9 @@ def index(request):
         now = datetime.datetime.now()
         fs = FileSystemStorage(location=folder)
         filename_split = file.name.split('.')
-        file_name = filename_split[0]+'-'+now.strftime("%d%m%y%H%M%S")
+        file_name = filename_split[0] + '-' + now.strftime("%d%m%y%H%M%S")
         file_ext = filename_split[1]
-        filename = file_name+'.'+file_ext
+        filename = file_name + '.' + file_ext
 
         fs.save(filename, file)
 
@@ -51,7 +56,7 @@ def index(request):
             file_ext=str(file_ext),
 
         )
-        output_filename = 'result'+ now.strftime("%d%m%y%H%M%S")
+        output_filename = 'result' + now.strftime("%d%m%y%H%M%S")
 
         file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + output_filename + '.xml'
         with open(file_path, 'rb') as fh:
@@ -61,19 +66,16 @@ def index(request):
 
     else:
         return render(request, 'upd/index.html', {})
-
-
-
-
+'''
+'''
 def download_template(request):
-
     file_path = os.path.join(settings.THIS_FOLDER, 'tech/templates/xls/template.xlsx')
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
         response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
         return response
-
-
+'''
+'''
 def create_upd(**data):
     now = datetime.datetime.now()
 
@@ -123,10 +125,10 @@ def create_upd(**data):
     upd.set_sv_pokup_adr('142715', '50', '"Ленинский, с/п Развилковское', 'Мильково', 'владение 1')
 
     upd.set_dop_sv_fhzh1('Российский рубль')
-    upd.set_table(data['file_name']+'.'+data['file_ext'])
+    upd.set_table(data['file_name'] + '.' + data['file_ext'])
     upd.output()
-
-
+'''
+'''
 def create_upd_sveta():
     tree = etree.parse('upd/templates/synerdocs/template.xml')
     print(tree)
@@ -192,7 +194,6 @@ def create_upd_sveta():
                 child.set(u'СтТовБезНДС', str(row[13]))
                 total_sum_excl_vat = total_sum_excl_vat + float(row[13])
 
-                child.set(u'НалСт', u'без НДС')
                 child.set(u'СтТовУчНал', str(row[22]))
 
                 print(str(total_sum_incl_vat) + ' + ' + str(float(row[22])))
@@ -237,3 +238,85 @@ def create_upd_sveta():
 
     tree.write('upd/tech/output/' + output_file_name + '.xml', xml_declaration=True, encoding='windows-1251',
                pretty_print=True)
+'''
+
+def test(request):
+    # ООО
+    seller = {u"НаимОрг": u'ООО Форси', u"ИННЮЛ": "5904650273", u"КПП": "590401001", "Тлф": "+79024786088",
+              u'НомерСчета': '40702810401280002173',
+              u'Банк': {u'НаимБанк': u"Филиал ОАО Уралсиб в г.Уфа", u'БИК': "048073770",
+                        u'КорСчет': "30101810600000000770"},
+              u'Адрес': {u'Индекс': '614000', u'КодРегион': '59', u'Город': u"Пермь", u'Улица': u"Чкалова", u'Дом': "9",
+                         u'Корпус': u"Д"}}
+
+    wb = {u'Покупатель': {u'НаимОрг': u"ООО Вайлдберриз", u'ИННЮЛ': "7721546864", u'КПП': "997750001",
+                          u'Адрес': {u'Индекс': '142715', u'КодРегион': '50',
+                                     u'Район': u"Ленинский, с/п Развилковское",
+                                     u'НаселПункт': u"Мильково", u'Дом': "владение 1"}},
+          u'Грузополучатель_Подольск': {u'НаимОрг': u"ООО Вайлдберриз, Обособленное подразделение Подольск",
+                                        u'ИННЮЛ': "7721546864", u'КПП': "503645001", "Тлф": "8(495)775-55-05",
+                                        u'Адрес': {u'Индекс': '142103', u'КодРегион': '50',
+                                                   u'Город': u"Подольск", u'Улица': u"Поливановская", u'Дом': "9"}}
+          }
+    filename = u'ТТН 358.xls'
+    parse_rules = {u'Начало страницы': {'fix': 0, 'value': "Код продукции"},
+                   u'НаимТов': {'fix': 0, 'column': 'AA'},
+                   u'ОКЕИ_Тов': {'fix': 1, 'value': 796},
+                   u'КолТов': {'fix': 0, 'column': 'V'},
+                   u'ЦенаТов': {'fix': 0, 'column': 'X'},
+                   u'СтТовБезНДС': {'fix': 0, 'column': 'BO'},
+                   u'СтТовУчНал': {'fix': 0, 'column': 'BO'},
+                   u'ПрТовРаб': {'fix': 1, 'value': 1},
+                   u'КодТов': {'fix': 0, 'column': 'A'},
+                   u'НаимЕдИзм': {'fix': 1, 'value': u'шт'},
+                   u'КодПроисх': {'fix': 1, 'value': 643},
+                   u'НомерТД': {'fix': 1, 'value': '-'},
+                   u'КрНаимСтрПр': {'fix': 1, 'value': u'Россия'},
+                   u'НДС': 0,
+                   }
+    upd = Upd(
+        seller=seller, wb=wb,
+        sf_number='11', filename=filename, parse_rules=parse_rules)
+    upd.output()
+    return render(request, 'upd/index.html', {})
+
+
+def test2(request):
+    # ООО
+    seller = {u"НаимОрг": u'ООО "КОСТЬЕРА ФЕШН"', u"ИННЮЛ": "7725482499", u"КПП": "772501001", "Тлф": "+79857840821",
+              u'НомерСчета': '40702810810000317057',
+              u'Банк': {u'НаимБанк': u"Банк АО 'ТИНЬКОФФ БАНК'", u'БИК': "044525974",
+                        u'КорСчет': "30101810145250000974"},
+              u'Адрес': {u'Индекс': '614000', u'КодРегион': '59', u'Город': u"Москва", u'Улица': u"Шаболовка", u'Дом': "34",
+                         u'Корпус': u"5"}}
+
+    wb = {u'Покупатель': {u'НаимОрг': u"ООО Вайлдберриз", u'ИННЮЛ': "7721546864", u'КПП': "997750001",
+                          u'Адрес': {u'Индекс': '142715', u'КодРегион': '50',
+                                     u'Район': u"Ленинский, с/п Развилковское",
+                                     u'НаселПункт': u"Мильково", u'Дом': "владение 1"}},
+          u'Грузополучатель_Подольск': {u'НаимОрг': u"ООО Вайлдберриз, Обособленное подразделение Подольск",
+                                        u'ИННЮЛ': "7721546864", u'КПП': "503645001", "Тлф": "8(495)775-55-05",
+                                        u'Адрес': {u'Индекс': '142103', u'КодРегион': '50',
+                                                   u'Город': u"Подольск", u'Улица': u"Поливановская", u'Дом': "9"}}
+          }
+    filename = u'order6.xls'
+    parse_rules = {u'Начало страницы': {'fix': 1, 'value': 1},
+                   u'НаимТов': {'fix': 0, 'column': 'A'},
+                   u'ОКЕИ_Тов': {'fix': 1, 'value': 796},
+                   u'КолТов': {'fix': 0, 'column': 'C'},
+                   u'ЦенаТов': {'fix': 0, 'column': 'D'},
+                   u'СтТовБезНДС': {'fix': 0, 'column': 'BO'},
+                   u'СтТовУчНал': {'fix': 0, 'column': 'BO'},
+                   u'ПрТовРаб': {'fix': 1, 'value': 1},
+                   u'КодТов': {'fix': 0, 'column': 'A'},
+                   u'НаимЕдИзм': {'fix': 1, 'value': u'шт'},
+                   u'КодПроисх': {'fix': 1, 'value': 643},
+                   u'НомерТД': {'fix': 1, 'value': '-'},
+                   u'КрНаимСтрПр': {'fix': 1, 'value': u'Россия'},
+                   u'НДС': 0,
+                   }
+    upd = Upd(
+        seller=seller, wb=wb,
+        sf_number='11', filename=filename, parse_rules=parse_rules)
+    upd.output()
+    return render(request, 'upd/index.html', {})
