@@ -292,9 +292,9 @@ class Upd:
 
         #TODO дата, номер вынести в настройки
         sub_sub_child = etree.SubElement(sub_child, u'ОснПер')
-        sub_sub_child.set(u'НаимОсн', u'Агентский договор №49')
-        sub_sub_child.set(u'ДатаОсн', u'15.03.2018')
-
+        osnovanie_peredachi = self.seller.get(u'ОснованиеПередачи', {})
+        sub_sub_child.set(u'НаимОсн', osnovanie_peredachi.get(u'НаимОсн', ''))
+        sub_sub_child.set(u'ДатаОсн', osnovanie_peredachi.get(u'ДатаОсн', ''))
 
     def set_item_value (self, name, row):
         if self.parse_rooles.get(name, '').get(u'fix', '') == 0:
@@ -344,12 +344,20 @@ class Upd:
                 item[u'КолТов'] = str(self.set_item_value(name=u'КолТов', row=row))
                 item[u'ЦенаТов'] = str(self.set_item_value(name=u'ЦенаТов', row=row).replace(u'\xa0', '').
                                        replace(u' ', '').replace(u',', '.'))
-                item[u'СтТовБезНДС'] = str(self.set_item_value(name=u'СтТовБезНДС', row=row).replace(u'\xa0', '').
-                                           replace(u' ', '').replace(u',', '.'))
+                if self.parse_rooles.get('СтТовБезНДС', '').get(u'fix', '') == 2:
+                    item[u'СтТовБезНДС'] = str(float(item[u'КолТов'])*float(item[u'ЦенаТов']))
+                else:
+                    item[u'СтТовБезНДС'] = str(self.set_item_value(name=u'СтТовБезНДС', row=row).replace(u'\xa0', '').
+                                               replace(u' ', '').replace(u',', '.'))
                 #todo Без НДС
                 item[u'НалСт'] = u'без НДС'
-                item[u'СтТовУчНал'] = str(self.set_item_value(name=u'СтТовУчНал', row=row).replace(u'\xa0', '').
-                                          replace(u' ', '').replace(u',', '.'))
+                if self.parse_rooles.get('СтТовУчНал', '').get(u'fix', '') == 2:
+                    item[u'СтТовУчНал'] = str(float(item[u'КолТов'])*float(item[u'ЦенаТов']))
+
+                else:
+                    item[u'СтТовУчНал'] = str(self.set_item_value(name=u'СтТовУчНал', row=row).replace(u'\xa0', '').
+                                              replace(u' ', '').replace(u',', '.'))
+
                 item[u'ПрТовРаб'] = str(self.set_item_value(name=u'ПрТовРаб', row=row))
                 item[u'КодТов'] = str(self.set_item_value(name=u'КодТов', row=row))
                 item[u'НаимЕдИзм'] = str(self.set_item_value(name=u'НаимЕдИзм', row=row))
