@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+{% load static %}
+
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Wizards</title>
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/steps/jquery.steps.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/datapicker/datepicker3.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@19.7.1/dist/css/suggestions.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <img alt="image" class="rounded-circle" src="{% static 'img/profile_small.jpg'%}"/>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="block m-t-xs font-bold">David Williams</span>
+                            <span class="text-muted text-xs block">Art Director </span>
+                        </a>
+
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+
+                <li class="active">
+                    <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">УПД</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+
+                        <li class="active"><a href="#">Wildberries</a></li>
+                        <li><a href="#">Ozon</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+
+
+                <li>
+                    <a href="login.html">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>УПД для Wildberries</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="index.html">Главная</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a>УПД</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <strong>Wildberries</strong>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+
+                        <div class="ibox-content">
+
+
+                            <form id="form" action="#" method="post" class="wizard-big" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <h1>Покупатель</h1>
+                                <fieldset>
+                                    <div class="row">
+
+                                        <div class="col-lg-8">
+                                            <div class="form-group">
+                                                <label>Покупатель *</label>
+                                                 <input type="text" disabled="" placeholder="ООО Вайлдберриз" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Грузополучатель *</label>
+                                                 <input  id="gruzopoluchatel" name="gruzopoluchatel" type="text" disabled="" placeholder="Обособленное подразделение Подольск" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <h1>Продавец</h1>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+
+                                            <div class="form-group">
+                                                <label>Организация или ИНН *</label>
+                                                <input id="party" name="party" type="text"  class="form-control required"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input id="name_short" name="name_short" type="hidden" class="form-control required">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input id="inn" name="inn" type="hidden" class="form-control required">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="kpp" name="kpp" type="hidden" class="form-control required">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="address" name="address" type="hidden" class="form-control required">
+                                            </div>
+
+                                           <div class="form-group">
+                                                <label>Банк *</label>
+                                                <input id="bank" name="bank" type="text"   class="form-control required"/>
+                                            </div>
+
+                                           <div class="form-group">
+                                                <input id="name_payment" name="name_payment" type="hidden"  class="form-control required"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="bic" name="bic" type="hidden" class="form-control required">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="correspondent_account" name="correspondent_account" type="hidden" class="form-control required">
+                                            </div>
+                                           <div class="form-group">
+                                                <label>Номер счета *</label>
+                                                <input id="schet" name="schet" type="text"  class="form-control required"/>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="text-center">
+                                                <div style="margin-top: 20px">
+                                                    <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <h1>УПД</h1>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="form-group">
+                                                <label>Номер счета-фактуры *</label>
+                                                 <input  id="sf_number" name="sf_number" type="text" class="form-control required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Документ - основание для передачи товара *</label>
+                                                 <input  id="osnovanie" name="osnovanie" type="text" class="form-control required">
+                                            </div>
+                                            <div class="form-group" id="data_1">
+                                                <label>Дата документа — основания</label>
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input   id="data_osnovaniya" name="data_osnovaniya"  type="text" class="form-control required" value="01/01/2018">
+                                                    </div>
+
+                                            </div>
+
+
+                                         </div>
+                                    </div>
+                                </fieldset>
+                                <h1>Товары</h1>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                                <label>Шаблон файла для загрузки товаров</label>
+                                               <p class="form-control-static"><a href="#">Скачать</a> </p>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Страна происхождения</label>
+                                                 <input type="text" disabled="" placeholder="Россия" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="custom-file">
+                                                <input id="docfile" name="docfile" type="file" class="custom-file-input">
+                                                <label for="docfile" class="custom-file-label">Choose file...</label>
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="col-lg-6">
+
+                                            <div class="form-group">
+                                                <label>НДС</label>
+                                                 <input type="text" disabled="" placeholder="Без НДС" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <div class="form-group">
+                                                <label>Формат файла</label>
+                                                <select class="form-control m-b" name="account">
+                                                    <option>ТТН</option>
+                                                    <option>По шаблону</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                         <div class="col-lg-6">
+
+                                             <div class="form-group">
+                                                <label>Акцизы</label>
+                                                 <input type="text" disabled="" placeholder="Без акциза" class="form-control">
+                                            </div>
+                                        </div>
+                                        </div>
+
+
+
+                                </fieldset>
+
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+        <div class="footer">
+            <div class="float-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2018
+            </div>
+        </div>
+
+        </div>
+        </div>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/plugins/datapicker/bootstrap-datepicker.js' %}"></script>
+
+    <script src="{% static 'js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% static 'js/inspinia.js' %}"></script>
+    <script src="{% static 'js/plugins/pace/pace.min.js' %}"></script>
+
+    <!-- Steps -->
+    <script src="{% static 'js/plugins/steps/jquery.steps.js' %}"></script>
+
+    <!-- Jquery Validate -->
+    <script src="{% static 'js/plugins/validate/jquery.validate.min.js' %}"></script>
+
+    <!-- Dadata -->
+
+    <script src="https://cdn.jsdelivr.net/jquery.suggestions/latest/js/jquery.suggestions.min.js"></script>
+
+
+    <script>
+        $(document).ready(function(){
+
+            $("#wizard").steps();
+            $("#form").steps({
+                bodyTag: "fieldset",
+                onStepChanging: function (event, currentIndex, newIndex)
+                {
+                    // Always allow going backward even if the current step contains invalid fields!
+                    if (currentIndex > newIndex)
+                    {
+                        return true;
+                    }
+
+                    // Forbid suppressing "Warning" step if the user is to young
+                    if (newIndex === 3 && Number($("#age").val()) < 18)
+                    {
+                        return false;
+                    }
+
+                    var form = $(this);
+
+                    // Clean up if user went backward before
+                    if (currentIndex < newIndex)
+                    {
+                        // To remove error styles
+                        $(".body:eq(" + newIndex + ") label.error", form).remove();
+                        $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                    }
+
+                    // Disable validation on fields that are disabled or hidden.
+                    form.validate().settings.ignore = ":disabled,:hidden";
+
+                    // Start validation; Prevent going forward if false
+                    return form.valid();
+                },
+                onStepChanged: function (event, currentIndex, priorIndex)
+                {
+                    // Suppress (skip) "Warning" step if the user is old enough.
+                    if (currentIndex === 2 && Number($("#age").val()) >= 18)
+                    {
+                        $(this).steps("next");
+                    }
+
+                    // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                    if (currentIndex === 2 && priorIndex === 3)
+                    {
+                        $(this).steps("previous");
+                    }
+                },
+                onFinishing: function (event, currentIndex)
+                {
+                    var form = $(this);
+
+                    // Disable validation on fields that are disabled.
+                    // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                    form.validate().settings.ignore = ":disabled,:hidden";
+
+                    // Start validation; Prevent form submission if false
+                    return form.valid();
+                },
+                onFinished: function (event, currentIndex)
+                {
+                    var form = $(this);
+
+                    // Submit form input
+                    form.submit();
+                }
+            }).validate({
+                        errorPlacement: function (error, element)
+                        {
+                            element.before(error);
+                        },
+                        rules: {
+                            confirm: {
+                                equalTo: "#password"
+                            }
+                        }
+                    });
+
+
+
+//// Dadata
+
+                     // Замените на свой API-ключ
+                    var token = "6e8724fddb03685d8f6f2c5d53a936c4f2955383";
+
+                    function join(arr /*, separator */) {
+                      var separator = arguments.length > 1 ? arguments[1] : ", ";
+                      return arr.filter(function(n){return n}).join(separator);
+                    }
+
+                    function typeDescription(type) {
+                      var TYPES = {
+                        'INDIVIDUAL': 'Индивидуальный предприниматель',
+                        'LEGAL': 'Организация'
+                      }
+                      return TYPES[type];
+                    }
+
+                    function showSuggestion_party(suggestion) {
+                      console.log(suggestion);
+                      var data = suggestion.data;
+                      if (!data)
+                        return;
+
+
+                      $("#type").val(
+                        data.type
+                      );
+
+                      if (data.name) {
+                        $("#name_short").val(data.name.short_with_opf || "");
+                        $("#name_full").val(data.name.full_with_opf || "");
+                      }
+
+                      $("#inn").val(data.inn);
+                      $("#kpp").val(data.kpp);
+
+                      if (data.address) {
+                        var address = "";
+                        if (data.address.data.qc == "0") {
+                          address = join([data.address.data.postal_code, data.address.value]);
+                        } else {
+                          address = data.address.data.source;
+                        }
+                        $("#address").val(address);
+                      }
+                    }
+
+                    $("#party").suggestions({
+                      token: token,
+                      type: "PARTY",
+                      count: 3,
+                      /* Вызывается, когда пользователь выбирает одну из подсказок */
+                      onSelect: showSuggestion_party
+                    });
+
+                    function showSuggestion_bank(suggestion) {
+                      console.log(suggestion);
+                      var data = suggestion.data;
+                      if (!data)
+                        return;
+                      $("#name_payment").val(data.name && data.name.payment || "");
+                      $("#bic").val(data.bic);
+                      $("#correspondent_account").val(data.correspondent_account);
+                    }
+
+                    $("#bank").suggestions({
+                      token: token,
+                      type: "BANK",
+                      count: 3,
+                      /* Вызывается, когда пользователь выбирает одну из подсказок */
+                      onSelect: showSuggestion_bank
+                    });
+
+
+            var mem = $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+            $('.custom-file-input').on('change', function() {
+               let fileName = $(this).val().split('\\').pop();
+               $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
+
+       });
+    </script>
+
+</body>
+
+</html>

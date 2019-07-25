@@ -20,7 +20,10 @@ def download_template(request):
     return 1
 
 
-'''
+def new_design(request):
+    return render(request, 'upd/wizard.html', {})
+
+
 def index(request):
     if request.method == "POST":
         file = request.FILES['docfile']
@@ -56,7 +59,7 @@ def index(request):
             file_ext=str(file_ext),
 
         )
-        output_filename = 'result' + now.strftime("%d%m%y%H%M%S")
+        output_filename = 'resulttest-' + now.strftime("%d%m%y%H%M%S")
 
         file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + output_filename + '.xml'
         with open(file_path, 'rb') as fh:
@@ -65,8 +68,10 @@ def index(request):
             return response
 
     else:
-        return render(request, 'upd/index.html', {})
-'''
+        return render(request, 'upd/wizard.html', {})
+
+
+
 '''
 def download_template(request):
     file_path = os.path.join(settings.THIS_FOLDER, 'tech/templates/xls/template.xlsx')
@@ -75,59 +80,47 @@ def download_template(request):
         response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
         return response
 '''
-'''
+
 def create_upd(**data):
-    now = datetime.datetime.now()
+    # ООО
+    seller = {u"НаимОрг": u'ООО КОСТЬЕРА ФЕШН', u"ИННЮЛ": "7725482499", u"КПП": "772501001", "Тлф": "+79857840821",
+              u'НомерСчета': '40702810810000317057',
+              u'Банк': {u'НаимБанк': u"Банк АО 'ТИНЬКОФФ БАНК'", u'БИК': "044525974",
+                        u'КорСчет': "30101810145250000974"},
+              u'Адрес': {u'Индекс': '614000', u'КодРегион': '59', u'Город': u"Москва", u'Улица': u"Шаболовка", u'Дом': "34",
+                         u'Корпус': u"5"},
+              u'ОснованиеПередачи': {u'НаимОсн': 'Агентский договор №123', u'ДатаОсн': '11.11.2018'}}
 
-    upd = Upd(os.path.join(settings.THIS_FOLDER, 'tech/templates/xml/synerdocs/template_ooo.xml'))
-    upd.set_file('ON_SCHFDOPPR___20190204_6de6a7f1-9816-4d9b-8973-8dfa68ccfc8c')
-    upd.set_document(data['function'], now.strftime("%d.%m.%y"), now.strftime("%H:%M:%S"), data['ul'])
-    upd.set_sv_sch_fact(data['doc_num'], now.strftime("%d.%m.%y"))
-
-    upd.set_sv_prod_ul(data['ul'], data['inn'], data['kpp'])
-    upd.set_sv_prod_adr(data['index'], data['kodreg'], data['city'], data['street'], data['house'], data['korp'])
-    upd.set_sv_prod_phone(data['phone'])
-    upd.set_sv_prod_bank(data['schet'], data['bank'], data['bik'], data['korschet'])
-
-    upd.set_gruz_ot_ul(data['ul'], data['inn'], data['kpp'])
-    upd.set_gruz_ot_adr(data['index'], data['kodreg'], data['city'], data['street'], data['house'], data['korp'])
-    upd.set_gruz_ot_phone(data['phone'])
-    upd.set_gruz_ot_bank(data['schet'], data['bank'], data['bik'], data['korschet'])
-
-    upd.set_gruz_pol_ul('ООО «Вайлдберриз», Обособленное подразделение «Подольск»', '7721546864', '503645001')
-    upd.set_gruz_pol_adr('142103', '50', 'Подольск', 'Поливановская', '9', '')
-
-    #   не обязательно, согласно гайдам WB
-    #    upd.set_gruz_pol_phone('+74957555505')
-    #    upd.set_gruz_pol_bank('40702810500110000939', 'ПАО ВТБ', '044525187', '30101810700000000187')
-
-    #   Новосиб
-    #    upd.set_gruz_pol_ul('ООО «Вайлдберриз», Обособленное подразделение «Новосибирск-6»', '7721546864', '540345001')
-    #    upd.set_gruz_pol_adr('630088', '54', 'Новосибирск', 'Петухова', '71', '')
-
-    #   TODO: Хабаровск
-    #    upd.set_gruz_pol_ul('ООО «Вайлдберриз», Обособленное подразделение «Новосибирск-6»', '7721546864', '540345001')
-    #    upd.set_gruz_pol_adr('630088', '54', 'Новосибирск', 'Петухова', '71', '')
-
-    #   TODO: Екат
-    #    upd.set_gruz_pol_ul('ООО «Вайлдберриз», Обособленное подразделение «Новосибирск-6»', '7721546864', '540345001')
-    #    upd.set_gruz_pol_adr('630088', '54', 'Новосибирск', 'Петухова', '71', '')
-
-    #   TODO: Краснодар
-    #    upd.set_gruz_pol_ul('ООО «Вайлдберриз», Обособленное подразделение «Новосибирск-6»', '7721546864', '540345001')
-    #    upd.set_gruz_pol_adr('630088', '54', 'Новосибирск', 'Петухова', '71', '')
-
-    #   TODO: Питер
-    #    upd.set_gruz_pol_ul('ООО «Вайлдберриз», Обособленное подразделение «Новосибирск-6»', '7721546864', '540345001')
-    #    upd.set_gruz_pol_adr('630088', '54', 'Новосибирск', 'Петухова', '71', '')
-
-    upd.set_sv_pokup_ul('ООО «Вайлдберриз»', '7721546864', '997750001')
-    upd.set_sv_pokup_adr('142715', '50', '"Ленинский, с/п Развилковское', 'Мильково', 'владение 1')
-
-    upd.set_dop_sv_fhzh1('Российский рубль')
-    upd.set_table(data['file_name'] + '.' + data['file_ext'])
+    wb = {u'Покупатель': {u'НаимОрг': u"ООО Вайлдберриз", u'ИННЮЛ': "7721546864", u'КПП': "997750001",
+                          u'Адрес': {u'Индекс': '142715', u'КодРегион': '50',
+                                     u'Район': u"Ленинский, с/п Развилковское",
+                                     u'НаселПункт': u"Мильково", u'Дом': "владение 1"}},
+          u'Грузополучатель_Подольск': {u'НаимОрг': u"ООО Вайлдберриз, Обособленное подразделение Подольск",
+                                        u'ИННЮЛ': "7721546864", u'КПП': "503645001", "Тлф": "8(495)775-55-05",
+                                        u'Адрес': {u'Индекс': '142103', u'КодРегион': '50',
+                                                   u'Город': u"Подольск", u'Улица': u"Поливановская", u'Дом': "9"}}
+          }
+    filename = u'Ecom template.xlsx'
+    parse_rules = {u'Начало страницы': {'fix': 1, 'value': 1},
+                   u'НаимТов': {'fix': 0, 'column': 'B'},
+                   u'ОКЕИ_Тов': {'fix': 1, 'value': 796},
+                   u'КолТов': {'fix': 0, 'column': 'C'},
+                   u'ЦенаТов': {'fix': 0, 'column': 'D'},
+                   u'СтТовБезНДС': {'fix': 2, 'column': '----'},
+                   u'СтТовУчНал': {'fix': 2, 'column': '----'},
+                   u'ПрТовРаб': {'fix': 1, 'value': 1},
+                   u'КодТов': {'fix': 0, 'column': 'A'},
+                   u'НаимЕдИзм': {'fix': 1, 'value': u'шт'},
+                   u'КодПроисх': {'fix': 1, 'value': 643},
+                   u'НомерТД': {'fix': 1, 'value': '-'},
+                   u'КрНаимСтрПр': {'fix': 1, 'value': u'Россия'},
+                   u'НДС': 0,
+                   }
+    upd = Upd(
+        seller=seller, wb=wb,
+        sf_number='11', filename=filename, parse_rules=parse_rules)
     upd.output()
-'''
+
 '''
 def create_upd_sveta():
     tree = etree.parse('upd/templates/synerdocs/template.xml')
