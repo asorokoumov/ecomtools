@@ -153,7 +153,7 @@ def get_data_from_form(request):
 
     now = datetime.datetime.now()
     filename_split = file.name.split('.')
-    file_name = filename_split[0] + '-' + now.strftime("%d%m%y%H%M%S")
+    file_name = filename_split[0]
     file_ext = filename_split[1]
     filename = file_name + '.' + file_ext
 
@@ -179,7 +179,7 @@ def index(request):
         create_upd(seller=seller, wb=wb, filename=filename, sf_number=sf_number, parse_rules=parse_rules)
 
         now = datetime.datetime.now()
-        output_filename = 'resulttest-' + now.strftime("%d%m%y%H%M%S")
+        output_filename = filename+'_result_' + now.strftime("%d%m%y%H%M%S")
 
         file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + output_filename + '.xml'
         with open(file_path, 'rb') as fh:

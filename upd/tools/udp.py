@@ -515,7 +515,7 @@ class Upd:
 
     def save_file_to_output_folder(self):
         now = datetime.datetime.now()
-        output_filename = 'result' + now.strftime("test-%d%m%y%H%M%S")
+        output_filename = self.filename+'_result_' + now.strftime("%d%m%y%H%M%S")
         print(settings.THIS_FOLDER, 'tech/output/' + output_filename + '.xml')
         self.tree.write(os.path.join(settings.THIS_FOLDER, 'tech/output/' + output_filename + '.xml'),
                         xml_declaration=True, encoding='windows-1251', pretty_print=True)
