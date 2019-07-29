@@ -6,6 +6,7 @@ from django.conf import settings
 import os
 import datetime
 from decimal import Decimal
+import re
 
 
 class Upd:
@@ -27,6 +28,12 @@ class Upd:
         self.set_table()
         self.set_footer()
 
+        now = datetime.datetime.now()
+        if bool(re.search('[а-яА-Я]', self.filename.split('.')[0])):
+            self.output_filename = 'result_' + now.strftime("%d%m%y%H%M%S")
+            print (self.output_filename)
+        else:
+            self.output_filename = self.filename.split('.')[0]+'_result_' + now.strftime("%d%m%y%H%M%S")
 
         pass
 
@@ -514,10 +521,7 @@ class Upd:
         subsubchild.text = '0.0'
 
     def save_file_to_output_folder(self):
-        now = datetime.datetime.now()
-        output_filename = self.filename+'_result_' + now.strftime("%d%m%y%H%M%S")
-        print(settings.THIS_FOLDER, 'tech/output/' + output_filename + '.xml')
-        self.tree.write(os.path.join(settings.THIS_FOLDER, 'tech/output/' + output_filename + '.xml'),
+        self.tree.write(os.path.join(settings.THIS_FOLDER, 'tech/output/' + self.output_filename + '.xml'),
                         xml_declaration=True, encoding='windows-1251', pretty_print=True)
 
     def column_num(self, char):

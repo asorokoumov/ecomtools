@@ -9,6 +9,7 @@ from django.conf import settings
 from django.http import *
 import datetime
 from django.core.files.storage import FileSystemStorage
+import re
 
 
 # Create your views here.
@@ -151,7 +152,6 @@ def get_data_from_form(request):
 
     file = request.FILES['docfile']
 
-    now = datetime.datetime.now()
     filename_split = file.name.split('.')
     file_name = filename_split[0]
     file_ext = filename_split[1]
@@ -176,12 +176,9 @@ def index(request):
 
         save_file_to_input_folder(input_folder='tech/input/', file=file, filename=filename)
 
-        create_upd(seller=seller, wb=wb, filename=filename, sf_number=sf_number, parse_rules=parse_rules)
+        upd = create_upd(seller=seller, wb=wb, filename=filename, sf_number=sf_number, parse_rules=parse_rules)
 
-        now = datetime.datetime.now()
-        output_filename = filename+'_result_' + now.strftime("%d%m%y%H%M%S")
-
-        file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + output_filename + '.xml'
+        file_path = os.path.join(settings.THIS_FOLDER, 'tech/output/') + upd.output_filename + '.xml'
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/force-download")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
@@ -206,6 +203,7 @@ def create_upd(seller, wb, filename, sf_number, parse_rules):
         seller=seller, wb=wb,
         sf_number=sf_number, filename=filename, parse_rules=parse_rules)
     upd.save_file_to_output_folder()
+    return upd
 
 '''
 def test(request):
