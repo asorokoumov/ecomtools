@@ -513,7 +513,7 @@ class Upd:
         subsubchild = etree.SubElement(subchild, u'СумНал')
         subsubchild.text = '0.0'
 
-    def output(self):
+    def save_file_to_output_folder(self):
         now = datetime.datetime.now()
         output_filename = 'result' + now.strftime("test-%d%m%y%H%M%S")
         print(settings.THIS_FOLDER, 'tech/output/' + output_filename + '.xml')

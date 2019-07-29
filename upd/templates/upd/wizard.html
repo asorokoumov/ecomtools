@@ -128,6 +128,30 @@
                                                 <label>Организация или ИНН *</label>
                                                 <input id="party" name="party" type="text"  class="form-control required"/>
                                             </div>
+                                            <div class="form-group">
+                                                <input id="postal_code" name="postal_code" type="hidden" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="region" name="region" type="hidden" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="city" name="city" type="hidden" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="settlement" name="settlement" type="hidden" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="street" name="street" type="hidden" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="house" name="house" type="hidden" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="block" name="block" type="hidden" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="city_kladr_id" name="city_kladr_id" type="hidden" class="form-control">
+                                            </div>
 
                                             <div class="form-group">
                                                 <input id="name_short" name="name_short" type="hidden" class="form-control required">
@@ -160,6 +184,11 @@
                                            <div class="form-group">
                                                 <label>Номер счета *</label>
                                                 <input id="schet" name="schet" type="text"  class="form-control required"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Контактный телефон *</label>
+                                                <input id="phone" name="phone" type="text" class="form-control required">
                                             </div>
 
 
@@ -402,11 +431,91 @@
                       return TYPES[type];
                     }
 
+                       function join(arr /*, separator */) {
+                          var separator = arguments.length > 1 ? arguments[1] : ", ";
+                          return arr.filter(function(n){return n}).join(separator);
+                        }
+
+                        function geoQuality(qc_geo) {
+                          var localization = {
+                            "0": "точные",
+                            "1": "ближайший дом",
+                            "2": "улица",
+                            "3": "населенный пункт",
+                            "4": "город"
+                          };
+                          return localization[qc_geo] || qc_geo;
+                        }
+
+                        function geoLink(address) {
+                          return join(["<a target=\"_blank\" href=\"",
+                                       "https://maps.yandex.ru/?text=",
+                                       address.geo_lat, ",", address.geo_lon, "\">",
+                                       address.geo_lat, ", ", address.geo_lon, "</a>"], "");
+                        }
+
+                        function showPostalCode(address) {
+                          $("#postal_code").val(address.postal_code);
+                        }
+
+                        function showRegion(address) {
+                          $("#region").val(address.area);
+                        }
+
+                        function showCity(address) {
+                          $("#city").val(address.city);
+                        }
+                        function showSettlement(address) {
+                          $("#settlement").val(address.settlement);
+                        }
+                        function showStreet(address) {
+                          $("#street").val(address.street);
+                        }
+
+                        function showHouse(address) {
+                          $("#house").val(address.house);
+                        }
+                        function showBlock(address) {
+                          $("#block").val(address.block);
+                        }
+                        function showKladr(address) {
+                          $("#city_kladr_id").val(address.city_kladr_id);
+                        }
+
+                        function showFlat(address) {
+                          $("#flat").val(
+                            join([address.flat_type, address.flat], " ")
+                          );
+                        }
+
+
+                        function showGeo(address) {
+                          if (address.qc_geo != "5") {
+                            var geo = geoLink(address) + " (" + geoQuality(address.qc_geo) + ")";
+                            $("#geo").html(geo);
+                          }
+                        }
+
+
                     function showSuggestion_party(suggestion) {
                       console.log(suggestion);
                       var data = suggestion.data;
+                      var address = suggestion.data.address.data;
+                        console.log(address);
+
                       if (!data)
                         return;
+
+
+                      showPostalCode(address);
+                      showRegion(address);
+                      showCity(address);
+                      showSettlement(address);
+                      showStreet(address);
+                      showHouse(address);
+                      showBlock(address);
+                      showKladr(address);
+
 
 
                       $("#type").val(
