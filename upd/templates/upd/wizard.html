@@ -34,7 +34,7 @@
 
                     </div>
                     <div class="logo-element">
-                        
+
                     </div>
                 </li>
 
@@ -209,7 +209,7 @@
                                             <div class="form-group" id="data_1">
                                                 <label>Дата документа — основания</label>
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input   id="data_osnovaniya" name="data_osnovaniya"  type="text" class="form-control required" value="01/01/2018">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input   id="data_osnovaniya" name="data_osnovaniya"  type="text" class="form-control required" value="01.01.2019">
                                                     </div>
 
                                             </div>
@@ -562,7 +562,9 @@
                 keyboardNavigation: false,
                 forceParse: false,
                 calendarWeeks: true,
-                autoclose: true
+                autoclose: true,
+                format: 'dd.mm.yyyy',
+
             });
             $('.custom-file-input').on('change', function() {
                let fileName = $(this).val().split('\\').pop();
